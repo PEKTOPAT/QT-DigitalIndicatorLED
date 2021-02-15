@@ -14,7 +14,7 @@ class DigitalIndicator: public QLabel
     Q_OBJECT
 public:
     DigitalIndicator();
-    void SetIndicatorBackLEDColor(QColor Color);
+    void SetIndicatorBackColor(QColor Color);
 
 public slots:
     void SetValue(long long Variable);
@@ -23,11 +23,10 @@ protected:
     void resizeEvent(QResizeEvent *);
     void paintEvent(QResizeEvent *);
 private slots:
-
 private:
     QLabel *Label_Indicator;
     QGridLayout *GridLayout_Indicator;
-    QColor IndicatorColor, IndicatorBackLEDColor, IndicatorError;
+    QColor IndicatorColor, IndicatorBackColor, IndicatorError;
     long long Variable;
     long long saveVariable;
     QList <QRect> TargetObjects;
