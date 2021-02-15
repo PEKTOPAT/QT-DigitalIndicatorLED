@@ -47,6 +47,7 @@ void DigitalIndicator::painterIndicator(QColor Color)
     Pixmap_seven = QPixmap(DEF_WIDTH_SIGNS, DEF_HEIGHT_SIGNS);
     Pixmap_eight = QPixmap(DEF_WIDTH_SIGNS, DEF_HEIGHT_SIGNS);
     Pixmap_nine = QPixmap(DEF_WIDTH_SIGNS, DEF_HEIGHT_SIGNS);
+    Pixmap_void = QPixmap(DEF_WIDTH_SIGNS, DEF_HEIGHT_SIGNS);
     Pixmap_minus = QPixmap(DEF_WIDTH_SIGNS, DEF_HEIGHT_SIGNS);
 
     Pixmap_zero.fill(QColor(0,0,0,250));
@@ -59,6 +60,7 @@ void DigitalIndicator::painterIndicator(QColor Color)
     Pixmap_seven.fill(QColor(0,0,0,250));
     Pixmap_eight.fill(QColor(0,0,0,250));
     Pixmap_nine.fill(QColor(0,0,0,250));
+    Pixmap_void.fill(QColor(0,0,0,250));
     Pixmap_minus.fill(QColor(0,0,0,250));
 
     Painter_zero = new QPainter(&Pixmap_zero);
@@ -71,6 +73,7 @@ void DigitalIndicator::painterIndicator(QColor Color)
     Painter_seven = new QPainter(&Pixmap_seven);
     Painter_eight = new QPainter(&Pixmap_eight);
     Painter_nine = new QPainter(&Pixmap_nine);
+    Painter_void = new QPainter(&Pixmap_void);
     Painter_minus = new QPainter(&Pixmap_minus);
 
     //Элемент сегмента a
@@ -136,7 +139,7 @@ void DigitalIndicator::painterIndicator(QColor Color)
         QPointF(24.0, 46.0),
         QPointF(26.0, 44.0),
     };
-
+    QRectF point(27, 45, 4, 4);
     //Ноль
     Painter_zero->setBrush(IndicatorColor);
     Painter_zero->drawPolygon(points_a, 6);
@@ -145,6 +148,7 @@ void DigitalIndicator::painterIndicator(QColor Color)
     Painter_zero->drawPolygon(points_d, 6);
     Painter_zero->drawPolygon(points_e, 6);
     Painter_zero->drawPolygon(points_f, 6);
+    Painter_zero->drawEllipse(point);
     Painter_zero->setBrush(IndicatorBackLEDColor);
     Painter_zero->drawPolygon(points_g, 6);
     Painter_zero->end();
@@ -246,6 +250,16 @@ void DigitalIndicator::painterIndicator(QColor Color)
     Painter_nine->setBrush(IndicatorBackLEDColor);
     Painter_nine->drawPolygon(points_e, 6);
     Painter_nine->end();
+    //Пустой индикатор, только фон
+    Painter_void->setBrush(IndicatorBackLEDColor);
+    Painter_void->drawPolygon(points_a, 6);
+    Painter_void->drawPolygon(points_b, 6);
+    Painter_void->drawPolygon(points_c, 6);
+    Painter_void->drawPolygon(points_d, 6);
+    Painter_void->drawPolygon(points_e, 6);
+    Painter_void->drawPolygon(points_f, 6);
+    Painter_void->drawPolygon(points_g, 6);
+    Painter_void->end();
     //Минус
     Painter_minus->setBrush(IndicatorColor);
     Painter_minus->drawPolygon(points_g, 6);
@@ -257,7 +271,6 @@ void DigitalIndicator::painterIndicator(QColor Color)
     Painter_minus->drawPolygon(points_e, 6);
     Painter_minus->drawPolygon(points_f, 6);
     Painter_minus->end();
-
     Label_Indicator-> setFixedSize(width(), height());
     Pixmap = QPixmap(width(), height());
     Pixmap.fill(QPalette().window().color());
@@ -280,7 +293,8 @@ void DigitalIndicator::painterIndicator(QColor Color)
         if(saveVariable == 0)
         {
             PainterIn.drawPixmap(TargetObjects[count], Pixmap_zero);
-        }count++;
+        }else PainterIn.drawPixmap(TargetObjects[count], Pixmap_void);
+        count++;
     }
     count = 0;
     long long copyVariable_2 = saveVariable;
@@ -314,10 +328,13 @@ void DigitalIndicator::painterIndicator(QColor Color)
 void DigitalIndicator::SetValue(long long Variable)
 {
     int NumRank = 1;
+    //Условие поднятие флага отрицательного числа
     if(Variable < 0) {NumRank++; Variable = -Variable; flagMinus = true;}
     else flagMinus = false;
+    //Подсёт количества знаков
     long long copyVariable_1 = Variable;
     while ((copyVariable_1/=10) > 0) NumRank++;
+    //Условие возврата ошибки ERROR при количестве знаков превыщающих размер кол. знаков полотна
     if(NumRank > DEF_SEVENSEGMENT_NUMBER_SIGNS) {flagMinus = false; painterIndicator(IndicatorError); return;}
     saveVariable = Variable;
     Label_Indicator-> setFixedSize(width(), height());
@@ -332,11 +349,12 @@ void DigitalIndicator::SetValue(long long Variable)
     {
         QRect target(DEF_SIGNS_WIDTH_PLUS_GAP*i, 0.0, DEF_WIDTH_SIGNS, DEF_HEIGHT_SIGNS);
         TargetObjects.append(target);
-
         if(Variable == 0)
         {
             PainterIn.drawPixmap(TargetObjects[count], Pixmap_zero);
-        }count++;
+        }
+        else PainterIn.drawPixmap(TargetObjects[count], Pixmap_void);
+        count++;
     }
     count = 0;
     long long copyVariable_2 = Variable;
@@ -362,8 +380,6 @@ void DigitalIndicator::SetValue(long long Variable)
         else PainterIn.drawPixmap(TargetObjects[i], Pixmap_nine);
         count++;
     }
-    //    if(flagMinus)
-
     QRect target(0.0, 0.0, width(), height());
     Painter.drawPixmap(target, PixmapIn);
     Label_Indicator->setPixmap(Pixmap);

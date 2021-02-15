@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     Widget = new QWidget();
     GridLayout = new QGridLayout();
     SevenLCD = new DigitalIndicator;
-    long long a = -3456789;
+    long long a = 20345678;
     SevenLCD->SetValue(a);//Если > символов, чем задано define, выводит нули красным!
     GridLayout->addWidget(SevenLCD);
     Widget->setLayout(GridLayout);

@@ -45,6 +45,7 @@ private:
     QPixmap Pixmap_seven;
     QPixmap Pixmap_eight;
     QPixmap Pixmap_nine;
+    QPixmap Pixmap_void;
     QPixmap Pixmap_minus;
 
     QPointF points_a[6];
@@ -54,6 +55,7 @@ private:
     QPointF points_e[6];
     QPointF points_d[6];
     QPointF points_c[6];
+    QRectF point;
 
     QPainter *Painter_zero;
     QPainter *Painter_one;
@@ -65,9 +67,9 @@ private:
     QPainter *Painter_seven;
     QPainter *Painter_eight;
     QPainter *Painter_nine;
+    QPainter *Painter_void;
+    QPainter *Painter_point;
     QPainter *Painter_minus;
-
-
     public:
 };
 //******************************************************************************
