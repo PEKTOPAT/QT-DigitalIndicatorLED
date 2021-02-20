@@ -4,9 +4,9 @@
 #include <QDebug>
 //******************************************************************************
 #define DEF_SEVENSEGMENT_NUMBER_SIGNS            8
-#define DEF_WIDTH_SIGNS                         32
-#define DEF_HEIGHT_SIGNS                        50
-#define DEF_SIGNS_WIDTH_PLUS_GAP                32
+#define DEF_WIDTH_SIGNS                         230
+#define DEF_HEIGHT_SIGNS                        360
+#define DEF_SIGNS_WIDTH_PLUS_GAP                225
 //******************************************************************************
 DigitalIndicator::DigitalIndicator()
 {
@@ -78,68 +78,68 @@ void DigitalIndicator::painterIndicator(QColor Color)
 
     //Элемент сегмента a
     QPointF points_a[6] = {
-        QPointF(5.0, 5.0),
-        QPointF(3.0, 3.0),
-        QPointF(5.0, 1.0),
-        QPointF(21.0, 1.0),
-        QPointF(23.0, 3.0),
-        QPointF(21.0, 5.0),
+        QPointF(71.7478, 26.8979),
+        QPointF(174.1256, 26.8979),
+        QPointF(187.8857, 40.6580),
+        QPointF(174.1256, 54.4181),
+        QPointF(71.7478, 54.4181),
+        QPointF(57.9877, 40.6580),
     };
     //Элемент сегмента f
     QPointF points_f[6] = {
-        QPointF(4.0, 6.0),
-        QPointF(2.0, 4.0),
-        QPointF(0.0, 6.0),
-        QPointF(0.0, 22.0),
-        QPointF(2.0, 24.0),
-        QPointF(4.0, 22.0),
+        QPointF(35.0475, 63.5981),
+        QPointF(48.8077, 49.8380),
+        QPointF(62.5678, 63.5981),
+        QPointF(62.5678, 165.9759),
+        QPointF(48.8077, 179.7360),
+        QPointF(35.0475, 165.9759),
     };
     //Элемент сегмента b
     QPointF points_b[6] = {
-        QPointF(26.0, 6.0),
-        QPointF(24.0, 4.0),
-        QPointF(22.0, 6.0),
-        QPointF(22.0, 22.0),
-        QPointF(24.0, 24.0),
-        QPointF(26.0, 22.0),
+        QPointF(183.3056, 63.5981),
+        QPointF(197.0657, 49.8380),
+        QPointF(210.8258, 63.5981),
+        QPointF(210.8258, 165.9759),
+        QPointF(197.0657, 179.7360),
+        QPointF(183.3056, 165.9759),
     };
     //Элемент сегмента g
     QPointF points_g[6] = {
-        QPointF(5.0, 27.0),
-        QPointF(3.0, 25.0),
-        QPointF(5.0, 23.0),
-        QPointF(21.0, 23.0),
-        QPointF(23.0, 25.0),
-        QPointF(21.0, 27.0),
+        QPointF(71.7478, 175.1559),
+        QPointF(174.1256, 175.1559),
+        QPointF(187.8857, 188.9160),
+        QPointF(174.1256, 202.6762),
+        QPointF(71.7478, 202.6762),
+        QPointF(57.9877, 188.9160),
     };
     //Элемент сегмента e
     QPointF points_e[6] = {
-        QPointF(4.0, 28.0),
-        QPointF(2.0, 26.0),
-        QPointF(0.0, 28.0),
-        QPointF(0.0, 44.0),
-        QPointF(2.0, 46.0),
-        QPointF(4.0, 44.0),
+        QPointF(35.0475, 211.8562),
+        QPointF(48.8077, 198.0961),
+        QPointF(62.5678, 211.8562),
+        QPointF(62.5678, 314.2340),
+        QPointF(48.8077, 327.9941),
+        QPointF(35.0475, 314.2340),
     };
     //Элемент сегмента d
     QPointF points_d[6] = {
-        QPointF(5.0, 49.0),
-        QPointF(3.0, 47.0),
-        QPointF(5.0, 45.0),
-        QPointF(21.0, 45.0),
-        QPointF(23.0, 47.0),
-        QPointF(21.0, 49.0),
+        QPointF(71.7478, 323.4140),
+        QPointF(174.1256, 323.4140),
+        QPointF(187.8857, 337.1741),
+        QPointF(174.1256, 350.9342),
+        QPointF(71.7478, 350.9342),
+        QPointF(57.9877, 337.1741),
     };
     //Элемент сегмента c
     QPointF points_c[6] = {
-        QPointF(26.0, 28.0),
-        QPointF(24.0, 26.0),
-        QPointF(22.0, 28.0),
-        QPointF(22.0, 44.0),
-        QPointF(24.0, 46.0),
-        QPointF(26.0, 44.0),
+        QPointF(183.3056, 211.8562),
+        QPointF(197.0657, 198.0961),
+        QPointF(210.8258, 211.8562),
+        QPointF(210.8258, 314.2340),
+        QPointF(197.0657, 327.9941),
+        QPointF(183.3056, 314.2340),
     };
-    QRectF point(27, 45, 4, 4);
+    QRectF point(127, 144, 55, 55);
     //Ноль
     Painter_zero->setBrush(IndicatorColor);
     Painter_zero->drawPolygon(points_a, 6);
