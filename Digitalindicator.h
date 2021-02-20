@@ -14,11 +14,11 @@ class DigitalIndicator: public QLabel
     Q_OBJECT
 public:
     DigitalIndicator();
-    void SetIndicatorBackLEDColor(QColor Color);
-
 public slots:
-    void SetValue(long long Variable);
+    void SetIndicatorBackColor(QColor Color);
+    void SetIndicatorBackLEDColor(QColor Color);
     void painterIndicator(QColor Color);
+    void SetValue(long double Variable);
 protected:
     void resizeEvent(QResizeEvent *);
     void paintEvent(QResizeEvent *);
@@ -27,9 +27,9 @@ private slots:
 private:
     QLabel *Label_Indicator;
     QGridLayout *GridLayout_Indicator;
-    QColor IndicatorColor, IndicatorBackLEDColor, IndicatorError;
-    long long Variable;
-    long long saveVariable;
+    QColor IndicatorColorSigns, IndicatorBackLEDColor, IndicatorError, IndicatorBackColor, IndicatorPointColor;
+    long double Variable;
+    long double saveVariable;
     QList <QRect> TargetObjects;
     bool flagMinus;
 

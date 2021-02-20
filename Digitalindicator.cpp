@@ -4,9 +4,9 @@
 #include <QDebug>
 //******************************************************************************
 #define DEF_SEVENSEGMENT_NUMBER_SIGNS            8
-#define DEF_WIDTH_SIGNS                         230
-#define DEF_HEIGHT_SIGNS                        360
-#define DEF_SIGNS_WIDTH_PLUS_GAP                225
+#define DEF_WIDTH_SIGNS                         250
+#define DEF_HEIGHT_SIGNS                        370
+#define DEF_SIGNS_WIDTH_PLUS_GAP                250
 //******************************************************************************
 DigitalIndicator::DigitalIndicator()
 {
@@ -14,7 +14,9 @@ DigitalIndicator::DigitalIndicator()
     GridLayout_Indicator = new QGridLayout(this);
     GridLayout_Indicator->addWidget(Label_Indicator);
     IndicatorError = QColor(255, 37, 0, 250);
-    IndicatorColor = QColor(24, 245, 39, 250);
+    IndicatorBackColor = QColor(0,0,0,250);
+    IndicatorColorSigns = QColor(24, 245, 39, 250);
+    IndicatorPointColor = QColor(0,0,0,250);
     IndicatorBackLEDColor = QColor(50, 50, 50, 150);
     flagMinus = false;
     int Left, Top, Right, Bottom;
@@ -27,7 +29,12 @@ DigitalIndicator::DigitalIndicator()
 }
 
 //******************************************************************************
-void DigitalIndicator::resizeEvent(QResizeEvent *) { painterIndicator(IndicatorColor);}
+void DigitalIndicator::resizeEvent(QResizeEvent *) { painterIndicator(IndicatorColorSigns);}
+//******************************************************************************
+void DigitalIndicator::SetIndicatorBackColor(QColor Color)
+{
+    IndicatorBackColor = Color;
+}
 //******************************************************************************
 void DigitalIndicator::SetIndicatorBackLEDColor(QColor Color)
 {
@@ -36,7 +43,7 @@ void DigitalIndicator::SetIndicatorBackLEDColor(QColor Color)
 //******************************************************************************
 void DigitalIndicator::painterIndicator(QColor Color)
 {
-    IndicatorColor = Color;
+    IndicatorColorSigns = Color;
     Pixmap_zero = QPixmap(DEF_WIDTH_SIGNS, DEF_HEIGHT_SIGNS);
     Pixmap_one = QPixmap(DEF_WIDTH_SIGNS, DEF_HEIGHT_SIGNS);
     Pixmap_two = QPixmap(DEF_WIDTH_SIGNS, DEF_HEIGHT_SIGNS);
@@ -50,18 +57,18 @@ void DigitalIndicator::painterIndicator(QColor Color)
     Pixmap_void = QPixmap(DEF_WIDTH_SIGNS, DEF_HEIGHT_SIGNS);
     Pixmap_minus = QPixmap(DEF_WIDTH_SIGNS, DEF_HEIGHT_SIGNS);
 
-    Pixmap_zero.fill(QColor(0,0,0,250));
-    Pixmap_one.fill(QColor(0,0,0,250));
-    Pixmap_two.fill(QColor(0,0,0,250));
-    Pixmap_three.fill(QColor(0,0,0,250));
-    Pixmap_four.fill(QColor(0,0,0,250));
-    Pixmap_five.fill(QColor(0,0,0,250));
-    Pixmap_six.fill(QColor(0,0,0,250));
-    Pixmap_seven.fill(QColor(0,0,0,250));
-    Pixmap_eight.fill(QColor(0,0,0,250));
-    Pixmap_nine.fill(QColor(0,0,0,250));
-    Pixmap_void.fill(QColor(0,0,0,250));
-    Pixmap_minus.fill(QColor(0,0,0,250));
+    Pixmap_zero.fill(IndicatorBackColor);
+    Pixmap_one.fill(IndicatorBackColor);
+    Pixmap_two.fill(IndicatorBackColor);
+    Pixmap_three.fill(IndicatorBackColor);
+    Pixmap_four.fill(IndicatorBackColor);
+    Pixmap_five.fill(IndicatorBackColor);
+    Pixmap_six.fill(IndicatorBackColor);
+    Pixmap_seven.fill(IndicatorBackColor);
+    Pixmap_eight.fill(IndicatorBackColor);
+    Pixmap_nine.fill(IndicatorBackColor);
+    Pixmap_void.fill(IndicatorBackColor);
+    Pixmap_minus.fill(IndicatorBackColor);
 
     Painter_zero = new QPainter(&Pixmap_zero);
     Painter_one = new QPainter(&Pixmap_one);
@@ -139,21 +146,22 @@ void DigitalIndicator::painterIndicator(QColor Color)
         QPointF(197.0657, 327.9941),
         QPointF(183.3056, 314.2340),
     };
-    QRectF point(127, 144, 55, 55);
+    QRectF point(210, 320, 40, 40);
     //Ноль
-    Painter_zero->setBrush(IndicatorColor);
+    Painter_zero->setBrush(IndicatorColorSigns);
     Painter_zero->drawPolygon(points_a, 6);
     Painter_zero->drawPolygon(points_b, 6);
     Painter_zero->drawPolygon(points_c, 6);
     Painter_zero->drawPolygon(points_d, 6);
     Painter_zero->drawPolygon(points_e, 6);
     Painter_zero->drawPolygon(points_f, 6);
-    Painter_zero->drawEllipse(point);
     Painter_zero->setBrush(IndicatorBackLEDColor);
     Painter_zero->drawPolygon(points_g, 6);
+    Painter_zero->setBrush(IndicatorPointColor);
+    Painter_zero->drawEllipse(point);
     Painter_zero->end();
     //Единица
-    Painter_one->setBrush(IndicatorColor);
+    Painter_one->setBrush(IndicatorColorSigns);
     Painter_one->drawPolygon(points_b, 6);
     Painter_one->drawPolygon(points_c, 6);
     Painter_one->setBrush(IndicatorBackLEDColor);
@@ -162,9 +170,11 @@ void DigitalIndicator::painterIndicator(QColor Color)
     Painter_one->drawPolygon(points_f, 6);
     Painter_one->drawPolygon(points_d, 6);
     Painter_one->drawPolygon(points_g, 6);
+    Painter_one->setBrush(IndicatorPointColor);
+    Painter_one->drawEllipse(point);
     Painter_one->end();
     //Двойка
-    Painter_two->setBrush(IndicatorColor);
+    Painter_two->setBrush(IndicatorColorSigns);
     Painter_two->drawPolygon(points_a, 6);
     Painter_two->drawPolygon(points_b, 6);
     Painter_two->drawPolygon(points_d, 6);
@@ -173,9 +183,11 @@ void DigitalIndicator::painterIndicator(QColor Color)
     Painter_two->setBrush(IndicatorBackLEDColor);
     Painter_two->drawPolygon(points_c, 6);
     Painter_two->drawPolygon(points_f, 6);
+    Painter_two->setBrush(IndicatorPointColor);
+    Painter_two->drawEllipse(point);
     Painter_two->end();
     //Тройка
-    Painter_three->setBrush(IndicatorColor);
+    Painter_three->setBrush(IndicatorColorSigns);
     Painter_three->drawPolygon(points_a, 6);
     Painter_three->drawPolygon(points_b, 6);
     Painter_three->drawPolygon(points_c, 6);
@@ -184,9 +196,11 @@ void DigitalIndicator::painterIndicator(QColor Color)
     Painter_three->setBrush(IndicatorBackLEDColor);
     Painter_three->drawPolygon(points_e, 6);
     Painter_three->drawPolygon(points_f, 6);
+    Painter_three->setBrush(IndicatorPointColor);
+    Painter_three->drawEllipse(point);
     Painter_three->end();
     //Четвёрка
-    Painter_four->setBrush(IndicatorColor);
+    Painter_four->setBrush(IndicatorColorSigns);
     Painter_four->drawPolygon(points_b, 6);
     Painter_four->drawPolygon(points_c, 6);;
     Painter_four->drawPolygon(points_f, 6);
@@ -195,9 +209,11 @@ void DigitalIndicator::painterIndicator(QColor Color)
     Painter_four->drawPolygon(points_a, 6);
     Painter_four->drawPolygon(points_d, 6);
     Painter_four->drawPolygon(points_e, 6);
+    Painter_four->setBrush(IndicatorPointColor);
+    Painter_four->drawEllipse(point);
     Painter_four->end();
     //Пятёрка
-    Painter_five->setBrush(IndicatorColor);
+    Painter_five->setBrush(IndicatorColorSigns);
     Painter_five->drawPolygon(points_a, 6);
     Painter_five->drawPolygon(points_c, 6);
     Painter_five->drawPolygon(points_d, 6);
@@ -206,9 +222,11 @@ void DigitalIndicator::painterIndicator(QColor Color)
     Painter_five->setBrush(IndicatorBackLEDColor);
     Painter_five->drawPolygon(points_b, 6);
     Painter_five->drawPolygon(points_e, 6);
+    Painter_five->setBrush(IndicatorPointColor);
+    Painter_five->drawEllipse(point);
     Painter_five->end();
     //Шестёрка
-    Painter_six->setBrush(IndicatorColor);
+    Painter_six->setBrush(IndicatorColorSigns);
     Painter_six->drawPolygon(points_a, 6);
     Painter_six->drawPolygon(points_c, 6);
     Painter_six->drawPolygon(points_d, 6);
@@ -217,9 +235,11 @@ void DigitalIndicator::painterIndicator(QColor Color)
     Painter_six->drawPolygon(points_g, 6);
     Painter_six->setBrush(IndicatorBackLEDColor);
     Painter_six->drawPolygon(points_b, 6);
+    Painter_six->setBrush(IndicatorPointColor);
+    Painter_six->drawEllipse(point);
     Painter_six->end();
     //Семёрка
-    Painter_seven->setBrush(IndicatorColor);
+    Painter_seven->setBrush(IndicatorColorSigns);
     Painter_seven->drawPolygon(points_a, 6);
     Painter_seven->drawPolygon(points_b, 6);
     Painter_seven->drawPolygon(points_c, 6);
@@ -228,9 +248,11 @@ void DigitalIndicator::painterIndicator(QColor Color)
     Painter_seven->drawPolygon(points_e, 6);
     Painter_seven->drawPolygon(points_f, 6);
     Painter_seven->drawPolygon(points_g, 6);
+    Painter_seven->setBrush(IndicatorPointColor);
+    Painter_seven->drawEllipse(point);
     Painter_seven->end();
     //Восьмёрка
-    Painter_eight->setBrush(IndicatorColor);
+    Painter_eight->setBrush(IndicatorColorSigns);
     Painter_eight->drawPolygon(points_a, 6);
     Painter_eight->drawPolygon(points_b, 6);
     Painter_eight->drawPolygon(points_c, 6);
@@ -238,9 +260,11 @@ void DigitalIndicator::painterIndicator(QColor Color)
     Painter_eight->drawPolygon(points_e, 6);
     Painter_eight->drawPolygon(points_f, 6);
     Painter_eight->drawPolygon(points_g, 6);
+    Painter_eight->setBrush(IndicatorPointColor);
+    Painter_eight->drawEllipse(point);
     Painter_eight->end();
     //Девятка
-    Painter_nine->setBrush(IndicatorColor);
+    Painter_nine->setBrush(IndicatorColorSigns);
     Painter_nine->drawPolygon(points_a, 6);
     Painter_nine->drawPolygon(points_b, 6);
     Painter_nine->drawPolygon(points_c, 6);
@@ -249,6 +273,8 @@ void DigitalIndicator::painterIndicator(QColor Color)
     Painter_nine->drawPolygon(points_g, 6);
     Painter_nine->setBrush(IndicatorBackLEDColor);
     Painter_nine->drawPolygon(points_e, 6);
+    Painter_nine->setBrush(IndicatorPointColor);
+    Painter_nine->drawEllipse(point);
     Painter_nine->end();
     //Пустой индикатор, только фон
     Painter_void->setBrush(IndicatorBackLEDColor);
@@ -261,7 +287,7 @@ void DigitalIndicator::painterIndicator(QColor Color)
     Painter_void->drawPolygon(points_g, 6);
     Painter_void->end();
     //Минус
-    Painter_minus->setBrush(IndicatorColor);
+    Painter_minus->setBrush(IndicatorColorSigns);
     Painter_minus->drawPolygon(points_g, 6);
     Painter_minus->setBrush(IndicatorBackLEDColor);
     Painter_minus->drawPolygon(points_a, 6);
@@ -281,7 +307,7 @@ void DigitalIndicator::painterIndicator(QColor Color)
     QPainter PainterIn(&PixmapIn);
     int NumRank = 1;
     if(flagMinus) NumRank++;
-    long long copyVariable_1 = saveVariable;
+    long double copyVariable_1 = saveVariable;
     while ((copyVariable_1/=10) > 0) NumRank++;
     int count = 0;
     //Позиционирование слева направо
@@ -297,8 +323,8 @@ void DigitalIndicator::painterIndicator(QColor Color)
         count++;
     }
     count = 0;
-    long long copyVariable_2 = saveVariable;
-    long long Number;
+    long double copyVariable_2 = saveVariable;
+    long double Number;
     if(flagMinus)
     {
         PainterIn.drawPixmap(TargetObjects[NumRank-1], Pixmap_minus);
@@ -325,14 +351,18 @@ void DigitalIndicator::painterIndicator(QColor Color)
     Label_Indicator->setPixmap(Pixmap);
 }
 //******************************************************************************
-void DigitalIndicator::SetValue(long long Variable)
+void DigitalIndicator::SetValue(long double Variable)
 {
+    //qDebug() << Variable;
+    printf("%1.25lf", (double)Variable);
+
+    //printf("%l",&Variable);
     int NumRank = 1;
     //Условие поднятие флага отрицательного числа
     if(Variable < 0) {NumRank++; Variable = -Variable; flagMinus = true;}
     else flagMinus = false;
     //Подсёт количества знаков
-    long long copyVariable_1 = Variable;
+    long double copyVariable_1 = Variable;
     while ((copyVariable_1/=10) > 0) NumRank++;
     //Условие возврата ошибки ERROR при количестве знаков превыщающих размер кол. знаков полотна
     if(NumRank > DEF_SEVENSEGMENT_NUMBER_SIGNS) {flagMinus = false; painterIndicator(IndicatorError); return;}
@@ -357,8 +387,8 @@ void DigitalIndicator::SetValue(long long Variable)
         count++;
     }
     count = 0;
-    long long copyVariable_2 = Variable;
-    long long Number;
+    long double copyVariable_2 = Variable;
+    long double Number;
     if(flagMinus)
     {
         PainterIn.drawPixmap(TargetObjects[NumRank-1], Pixmap_minus);
